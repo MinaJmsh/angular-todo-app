@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PaginationComponent } from '../pagination/pagination';
 import { TaskFilterComponent } from '../task-filter/task-filter';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-todo',
@@ -18,6 +19,8 @@ import { TaskFilterComponent } from '../task-filter/task-filter';
   styleUrls: ['./todo.css'],
 })
 export class TodoComponent implements OnInit {
+  constructor(private toast: ToastService) {}
+
   newTask = '';
   tasks: { text: string; done: boolean }[] = [];
   filter: 'all' | 'completed' | 'incomplete' = 'all';
@@ -40,18 +43,22 @@ export class TodoComponent implements OnInit {
     if (this.newTask.trim()) {
       this.tasks.unshift({ text: this.newTask.trim(), done: false });
       this.newTask = '';
+      this.updatePaginatedTasks();
+      this.toast.show('Task added!', 'success');
     }
-    this.updatePaginatedTasks();
   }
 
   removeTask(index: number) {
     this.tasks.splice(index, 1);
-    const maxPage = Math.ceil(this.tasks.length / this.itemsPerPage);
-    if (this.currentPage > maxPage) {
-      this.currentPage = maxPage;
-    }
     this.updatePaginatedTasks();
+    this.toast.show('Task removed.', 'error');
   }
+
+  onTaskStatusChanged() {
+    this.updatePaginatedTasks();
+    this.toast.show('Task status updated.', 'info');
+  }
+
   currentPage = 1;
   itemsPerPage = 10;
   paginatedTasks: { text: string; done: boolean }[] = [];
