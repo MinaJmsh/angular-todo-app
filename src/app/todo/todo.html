@@ -1,0 +1,54 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold mb-6 text-center text-purple-700">
+    📝 Mina's Todo List
+  </h2>
+
+  <div class="flex gap-3 mb-6">
+    <input
+      [(ngModel)]="newTask"
+      placeholder="Add new task..."
+      class="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+    />
+    <button
+      (click)="addTask()"
+      class="bg-purple-600 text-white px-5 py-2 rounded hover:bg-purple-700 transition"
+    >
+      Add
+    </button>
+  </div>
+
+  <ul class="space-y-3">
+    <li
+      *ngFor="let task of paginatedTasks; let i = index"
+      class="flex items-center gap-3 bg-purple-50 rounded px-4 py-3 shadow-sm"
+    >
+      <input
+        type="checkbox"
+        [(ngModel)]="task.done"
+        class="w-5 h-5 cursor-pointer"
+        id="task-{{ i }}"
+      />
+      <label
+        [class.line-through]="task.done"
+        [class.text-gray-400]="task.done"
+        for="task-{{ i }}"
+        class="flex-grow cursor-pointer select-none"
+      >
+        {{ task.text }}
+      </label>
+      <button
+        (click)="removeTask(i)"
+        class="text-red-500 hover:text-red-700 transition text-xl font-bold"
+        aria-label="Remove task"
+      >
+        &times;
+      </button>
+    </li>
+  </ul>
+  <app-pagination
+    [totalItems]="tasks.length"
+    [itemsPerPage]="itemsPerPage"
+    [currentPage]="currentPage"
+    (pageChanged)="onPageChanged($event)"
+  ></app-pagination>
+</div>
