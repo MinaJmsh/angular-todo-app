@@ -7,16 +7,16 @@
     Prev
   </button>
 
-  <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+  <ng-container *ngFor="let page of visiblePages">
     <button
       class="px-3 py-1 rounded"
       [ngClass]="{
-        'bg-purple-600 text-white': currentPage === i + 1,
-        'bg-gray-100': currentPage !== i + 1
+        'bg-purple-600 text-white': currentPage === page,
+        'bg-gray-100': currentPage !== page
       }"
-      (click)="changePage(i + 1)"
+      (click)="changePage(page)"
     >
-      {{ i + 1 }}
+      {{ page }}
     </button>
   </ng-container>
 

@@ -24,4 +24,17 @@ export class PaginationComponent {
       this.pageChanged.emit(page);
     }
   }
+  get visiblePages(): number[] {
+    const pages: number[] = [];
+    const total = this.totalPages;
+
+    const start = Math.max(1, this.currentPage - 1);
+    const end = Math.min(total, this.currentPage + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
 }

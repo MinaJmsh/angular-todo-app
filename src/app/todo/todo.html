@@ -1,6 +1,6 @@
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
   <h2 class="text-3xl font-bold mb-6 text-center text-purple-700">
-    📝 Mina's Todo List
+    📝 Angular Todo List
   </h2>
 
   <div class="flex gap-3 mb-6">
@@ -16,6 +16,7 @@
       Add
     </button>
   </div>
+  <app-task-filter (filterChanged)="onFilterChanged($event)"></app-task-filter>
 
   <ul class="space-y-3">
     <li
